@@ -1,0 +1,62 @@
+*,
+::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(to right, #0f2027, #143541, #1f485a);
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    font-family: 'Nerko One', cursive;
+}
+
+.tictactoe-title {
+    margin: 0 auto;
+    margin-top: 60px;
+    margin-bottom: 50px;
+    font-size: 56px;
+    color: #eca400;
+}
+
+.winner {
+    margin: 0 auto;
+    font-size: 24px;
+}
+
+.wrapper {
+    margin: 0 auto; 
+}
+
+.tictactoe-grid {
+    width: 400px;
+    max-width: 400px;
+    min-height: 300px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    
+}
+
+.tictactoe-box {
+    border: 1px solid black;
+    box-shadow: 0 0 10px black;
+    background-color: lightgray;
+}
+
+.tictactoe-box#box1 {
+    border-top-left-radius: 50%;
+}
+.tictactoe-box#box3 {
+    border-top-right-radius: 50%;
+}
+.tictactoe-box#box7 {
+    border-bottom-left-radius: 50%;
+}
+.tictactoe-box#box9 {
+    border-bottom-right-radius: 50%;
+}
