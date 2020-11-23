@@ -17,19 +17,6 @@ body {
     user-select: none;
 }
 
-.tictactoe-title {
-    margin-top: 35px;
-    margin-bottom: 10px;
-    font-size: 56px;
-    color: #eca400;
-    text-align: center;
-}
-
-.winner {
-    font-size: 24px;
-    text-align: center;
-}
-
 form {
     text-align: center;
 }
@@ -76,6 +63,20 @@ label {
     background-color: rgba(0, 0, 0, .2);
     cursor: pointer;
 }
+
+.tictactoe-title {
+    margin-top: 35px;
+    margin-bottom: 10px;
+    font-size: 56px;
+    color: #eca400;
+    text-align: center;
+}
+
+.winner {
+    font-size: 24px;
+    text-align: center;
+}
+
 .tictactoe-grid {
     width: 400px;
     max-width: 400px;
@@ -111,4 +112,9 @@ label {
 .tictactoe-box:hover {
     background-color: rgb(111, 111, 111);
     cursor: pointer;
+}
+
+.inactive {
+    background-color: rgb(48, 46, 46);
+    pointer-events: none;
 }

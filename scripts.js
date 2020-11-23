@@ -2,10 +2,13 @@
 
 const gameBoardModule = (() => {
 
+    const board = [...document.querySelectorAll(".tictactoe-box")];
+    const playButton = document.getElementById("play-button");
+    const playerName = document.getElementById("player-name");
+    const errorInput = document.getElementById("error-input");
+    toggleBoard(board, false);
+    
     /* Player */
-    let playButton = document.getElementById("play-button");
-    let playerName = document.getElementById("player-name");
-    let errorInput = document.getElementById("error-input");
     let player;
     let enemy;
     playButton.addEventListener("click", (e) => {
@@ -13,8 +16,7 @@ const gameBoardModule = (() => {
         if (playerName.value.length > 0) {
             player = players(playerName.value);
             enemy = players("IA");
-            console.log("player name: " + player.getName());
-            console.log("enemy name: " + enemy.getName());
+            toggleBoard(board, true);
         } else {
             errorInput.innerHTML = "Please choose a name";
         }
@@ -23,7 +25,7 @@ const gameBoardModule = (() => {
 
     /* Board */
 
-    let board = [...document.querySelectorAll(".tictactoe-box")];
+
     let boardPlays = [];
     board.forEach(element => {
         element.addEventListener("click", () => {
@@ -43,6 +45,18 @@ const gameBoardModule = (() => {
                 board[index].innerHTML = "O";  
                 break;
             }
+        }
+    }
+
+    function toggleBoard(board, playing) {
+        if(!playing) {
+            board.forEach(element => {
+                element.classList.add("inactive");
+            })
+        } else {
+            board.forEach(element => {
+                element.classList.remove("inactive");
+            })
         }
     }
 
