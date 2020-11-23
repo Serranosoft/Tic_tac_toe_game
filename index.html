@@ -1,20 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Tic Tac Toe game</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='styles.css'>
-    <script src='scripts.js'></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-    <h1 class="tictactoe-title">Tic Tac Toe</h1>
-    <p class="winner">IA has won</p>
+    
+    <form>
+        <label for="player-name">Name</label>
+        <p id="error-input" class="error-input"></p>
+        <input id="player-name" type="text" class="player-name" placeholder="Alex" required>
+        <input type="submit" id="play-button" class="play-button" value="Play!">
+    </form>
+
+
     <div class="wrapper">
-        
+        <h1 class="tictactoe-title">Tic Tac Toe</h1>
+        <p class="winner">IA has won</p>
+
+
         <div class="tictactoe-grid">
             <div id="box1" class="tictactoe-box"></div>
             <div id="box2" class="tictactoe-box"></div>
@@ -29,6 +40,8 @@
 
 
     </div>
-    
+
 </body>
+<script src='scripts.js'></script>
+
 </html>
