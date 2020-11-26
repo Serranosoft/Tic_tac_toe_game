@@ -1,47 +1,92 @@
 
 
-const gameBoardModule = (() => {
+const boardModule = (() => {
 
-    const gridBoard = document.querySelector(".tictactoe-grid");
     const board = [...document.querySelectorAll(".tictactoe-box")];
-    console.log(board[4].textContent);
     const playButton = document.getElementById("play-button");
     const playerName = document.getElementById("player-name");
     const errorInput = document.getElementById("error-input");
-    const winnerDiv = document.getElementById("winner");
+
     toggleBoard(board, false);
-
-    /* Player */
-    let player;
-    let enemy;
-    playButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        if (playerName.value.length > 0) {
-            player = players(playerName.value);
-            enemy = players("IA");
-            toggleBoard(board, true);
-        } else {
-            errorInput.innerHTML = "Please choose a name";
-        }
-    })
+    startGame();
 
 
-    /* Board */
+    function startGame() {
 
-
-    let boardPlays = [];
-    board.forEach(element => {
-        element.addEventListener("click", () => {
-            if (element.innerHTML === "") {
-                boardPlays.push(element);
-                element.innerHTML = "X";
-                printEnemy(board);
-                checkWinner();
+        playButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (playerName.value.length > 0) {
+                player = players(playerName.value);
+                enemy = players("IA");
+                toggleBoard(board, true);
+                controllerModule.winnerDiv.innerHTML = "";
+            } else {
+                errorInput.innerHTML = "Please choose a name";
             }
         })
-    });
 
-    function printEnemy(board) {
+    }
+
+    function toggleBoard(board, playing) {
+        if (!playing) {
+            board.forEach(element => {
+                element.classList.add("inactive");
+            })
+        } else {
+            board.forEach(element => {
+                element.classList.remove("inactive");
+                element.innerHTML = "";
+            })
+        }
+    }
+
+    return {board, playButton}
+
+})();
+
+const controllerModule = (() => {
+
+    const winnerDiv = document.getElementById("winner");
+    
+    const horizontal = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+    ];
+
+    const vertical = [
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8]
+    ];
+
+    const diagonal = [
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    let winCheck = [horizontal, vertical, diagonal];
+    let win_X = 0;
+    let win_O = 0;
+
+    let boardPlays = [];
+
+    function playerPlay(board) {
+        board.forEach(element => {
+            element.addEventListener("click", () => {
+                if (element.innerHTML === "") {
+                    boardPlays.push(element);
+                    element.innerHTML = "X";
+                    enemyPlay(board);
+                    setTimeout(() => {
+                        checkWinner(board);
+                    }, 350)
+                }
+            })
+        });
+    }
+
+    function enemyPlay(board) {
 
         let movement = Math.floor(Math.random() * (8 - 1) + 1);
         while (board[movement].textContent == "X" || board[movement].textContent == "O") {
@@ -61,79 +106,57 @@ const gameBoardModule = (() => {
                 board.forEach(element => {
                     element.removeAttribute("style", "pointer-events: all");
                 })
+                
             }, 300)
         }, 1)
+        
     }
 
-    function toggleBoard(board, playing) {
-        if (!playing) {
-            board.forEach(element => {
-                element.classList.add("inactive");
-            })
-        } else {
-            board.forEach(element => {
-                element.classList.remove("inactive");
-                element.innerHTML = "";
-            })
-        }
-    }
-
-
-    const horizontal = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-    ];
-
-    const vertical = [
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8]
-    ];
-
-    const tie = [
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
-
-    let winCheck = [horizontal, vertical, tie];
-    let win_X = 0;
-    let win_O = 0;
-
-    function checkWinner() {
-
+    function checkWinner(board) {
         winCheck.forEach(cell => {
             cell.forEach(combo => {
 
                 combo.forEach(secuence => {
-                    if (board[secuence].textContent == "X") {
+                    if (board[secuence].textContent === "X") {
+                        
                         win_X++;
                         if (win_X == 3) {
-                            displayWinner(player.getName());
-                        }
-                    } else if (board[secuence].textContent == "O") {
-                        win_O++;
-                        if (win_O == 3) {
-                            displayWinner("IA");
+                            displayWinner(player.getName(), board);
                         }
                     }
+                    if (board[secuence].textContent === "O") {
+                       
+                        win_O++;
+                    
+                        if (win_O == 3) {
+                            displayWinner("IA", board);
+                        }
+                    }
+                    
                 })
                 win_X = 0;
                 win_O = 0;
+                
             })
         })
     }
 
-    function displayWinner(winner) {
+    function displayWinner(winner, board) {
         winnerDiv.innerHTML = winner + " wins";
-        playButton.value = "Play again!";
+        boardModule.playButton.value = "Play again!";
+        boardPlays = [];
+        win_X = 0;
+        win_O = 0;
         board.forEach(box => {
             box.classList.add("inactive");
         })
-
     }
-})();
 
+    playerPlay(boardModule.board);
+
+    return {winnerDiv}
+
+})();
 
 // Players factory
 const players = (name) => {

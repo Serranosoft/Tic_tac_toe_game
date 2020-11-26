@@ -97,16 +97,16 @@ label {
     font-size: 56px;
 }
 
-.tictactoe-box#box1 {
+.tictactoe-box#box0 {
     border-top-left-radius: 50%;
 }
-.tictactoe-box#box3 {
+.tictactoe-box#box2 {
     border-top-right-radius: 50%;
 }
-.tictactoe-box#box7 {
+.tictactoe-box#box6 {
     border-bottom-left-radius: 50%;
 }
-.tictactoe-box#box9 {
+.tictactoe-box#box8 {
     border-bottom-right-radius: 50%;
 }
 
