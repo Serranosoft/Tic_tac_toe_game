@@ -2,6 +2,7 @@
 
 const gameBoardModule = (() => {
 
+    const gridBoard = document.querySelector(".tictactoe-grid");
     const board = [...document.querySelectorAll(".tictactoe-box")];
     console.log(board[4].textContent);
     const playButton = document.getElementById("play-button");
@@ -42,18 +43,26 @@ const gameBoardModule = (() => {
 
     function printEnemy(board) {
 
-        let movement = Math.floor(Math.random() * (8 - 1) +1);
-        while(board[movement].textContent == "X" || board[movement].textContent == "O") {
-            if(boardPlays.length >= 8) {
+        let movement = Math.floor(Math.random() * (8 - 1) + 1);
+        while (board[movement].textContent == "X" || board[movement].textContent == "O") {
+            if (boardPlays.length >= 8) {
                 break;
             }
-            movement = Math.floor(Math.random() * (8 - 1) +1);
-            
+            movement = Math.floor(Math.random() * (8 - 1) + 1);
+
         }
-        console.log(movement);
-        console.log(board[movement]);
         boardPlays.push(board[movement]);
-        board[movement].innerHTML = "O";
+        setTimeout(() => {
+            board.forEach(element => {
+                element.setAttribute("style", "pointer-events: none");
+            })
+            setTimeout(() => {
+                board[movement].innerHTML = "O";
+                board.forEach(element => {
+                    element.removeAttribute("style", "pointer-events: all");
+                })
+            }, 300)
+        }, 1)
     }
 
     function toggleBoard(board, playing) {
@@ -116,12 +125,12 @@ const gameBoardModule = (() => {
     }
 
     function displayWinner(winner) {
-        winnerDiv.innerHTML = winner +" wins";
+        winnerDiv.innerHTML = winner + " wins";
         playButton.value = "Play again!";
         board.forEach(box => {
             box.classList.add("inactive");
         })
-        
+
     }
 })();
 
