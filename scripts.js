@@ -20,6 +20,7 @@ const boardModule = (() => {
                 enemy = players("IA");
                 toggleBoard(board, true);
                 controllerModule.winnerDiv.innerHTML = "";
+                clearBoard();
             } else {
                 errorInput.innerHTML = "Please choose a name";
             }
@@ -40,14 +41,20 @@ const boardModule = (() => {
         }
     }
 
-    return {board, playButton}
+    function clearBoard() {
+        board.forEach(element => {
+            element.setAttribute("style", "background-color: lightgray")
+        })
+    }
+
+    return { board, playButton }
 
 })();
 
 const controllerModule = (() => {
 
     const winnerDiv = document.getElementById("winner");
-    
+
     const horizontal = [
         [0, 1, 2],
         [3, 4, 5],
@@ -78,9 +85,9 @@ const controllerModule = (() => {
                     boardPlays.push(element);
                     element.innerHTML = "X";
                     enemyPlay(board);
-                    setTimeout(() => {
+                     setTimeout(() => {
                         checkWinner(board);
-                    }, 350)
+                    }, 350) 
                 }
             })
         });
@@ -88,28 +95,31 @@ const controllerModule = (() => {
 
     function enemyPlay(board) {
 
-        let movement = Math.floor(Math.random() * (8 - 1) + 1);
+        let movement = Math.floor(Math.random() * (9 - 1) + 1);
         while (board[movement].textContent == "X" || board[movement].textContent == "O") {
             if (boardPlays.length >= 8) {
                 break;
             }
-            movement = Math.floor(Math.random() * (8 - 1) + 1);
+            movement = Math.floor(Math.random() * (9 - 1) + 1);
 
         }
-        boardPlays.push(board[movement]);
-        setTimeout(() => {
-            board.forEach(element => {
-                element.setAttribute("style", "pointer-events: none");
-            })
+        if (boardPlays.length < 9) {
+            boardPlays.push(board[movement]);
             setTimeout(() => {
-                board[movement].innerHTML = "O";
                 board.forEach(element => {
-                    element.removeAttribute("style", "pointer-events: all");
+                    element.setAttribute("style", "pointer-events: none");
                 })
-                
-            }, 300)
-        }, 1)
-        
+                setTimeout(() => {
+                    board[movement].innerHTML = "O";
+                    board.forEach(element => {
+                        element.removeAttribute("style", "pointer-events: all");
+                    })
+
+                }, 300)
+            }, 1)
+        }
+
+
     }
 
     function checkWinner(board) {
@@ -117,32 +127,51 @@ const controllerModule = (() => {
             cell.forEach(combo => {
 
                 combo.forEach(secuence => {
+
+
                     if (board[secuence].textContent === "X") {
-                        
+
                         win_X++;
                         if (win_X == 3) {
-                            displayWinner(player.getName(), board);
+                            console.log(combo);
+                            displayWinner(player.getName(), board, combo);
                         }
-                    }
-                    if (board[secuence].textContent === "O") {
-                       
+
+                    } else if (board[secuence].textContent === "O") {
+
                         win_O++;
-                    
+
                         if (win_O == 3) {
-                            displayWinner("IA", board);
+                            displayWinner("IA", board, combo);
                         }
                     }
                     
+                    if (isFull(board)) {
+                        console.log(win_X);
+                        console.log(win_O);
+                        displayWinner("Tie", board, null);
+                    }
+
+
                 })
                 win_X = 0;
                 win_O = 0;
-                
+
             })
+
         })
     }
 
-    function displayWinner(winner, board) {
-        winnerDiv.innerHTML = winner + " wins";
+    function displayWinner(winner, board, comboWinner) {
+        if (winner === "Tie") {
+            winnerDiv.innerHTML = "Tie!"
+        } else {
+            winnerDiv.innerHTML = winner + " wins";
+            comboWinner.forEach(secuence => {
+                board[secuence].setAttribute("style", "background-color: #eca400;")
+            })
+        }
+
         boardModule.playButton.value = "Play again!";
         boardPlays = [];
         win_X = 0;
@@ -150,11 +179,22 @@ const controllerModule = (() => {
         board.forEach(box => {
             box.classList.add("inactive");
         })
+
+    }
+
+    function isFull(board) {
+
+        //let boardFull = board.filter(element => element.textContent != "");
+        
+        if (boardPlays.length >= 9) {
+            return true;
+        }
+        return false;
     }
 
     playerPlay(boardModule.board);
 
-    return {winnerDiv}
+    return { winnerDiv }
 
 })();
 
