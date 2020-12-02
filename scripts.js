@@ -73,12 +73,14 @@ const controllerModule = (() => {
     let winCheck = [horizontal, vertical, diagonal];
     let win_X = 0;
     let win_O = 0;
+    let hasWon = false;
 
     let boardPlays = [];
 
     function playerPlay(board) {
         board.forEach(element => {
             element.addEventListener("click", () => {
+                hasWon = false;
                 if (element.innerHTML === "") {
                     boardPlays.push(element);
                     element.innerHTML = "X";
@@ -129,23 +131,22 @@ const controllerModule = (() => {
                     if (board[secuence].textContent === "X") {
 
                         win_X++;
-                        if (win_X == 3) {
-                            console.log(combo);
+                        if (win_X == 3 && !hasWon) {
                             displayWinner(player.getName(), board, combo);
+                            hasWon = true;
                         }
 
                     } else if (board[secuence].textContent === "O") {
 
                         win_O++;
 
-                        if (win_O == 3) {
+                        if (win_O == 3 && !hasWon) {
                             displayWinner("IA", board, combo);
+                            hasWon = true;
                         }
                     }
 
                     if (isFull(board)) {
-                        console.log(win_X);
-                        console.log(win_O);
                         displayWinner("Tie", board, null);
                     }
 
