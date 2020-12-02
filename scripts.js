@@ -1,5 +1,3 @@
-
-
 const boardModule = (() => {
 
     const board = [...document.querySelectorAll(".tictactoe-box")];
@@ -85,9 +83,9 @@ const controllerModule = (() => {
                     boardPlays.push(element);
                     element.innerHTML = "X";
                     enemyPlay(board);
-                     setTimeout(() => {
+                    setTimeout(() => {
                         checkWinner(board);
-                    }, 350) 
+                    }, 350)
                 }
             })
         });
@@ -119,7 +117,6 @@ const controllerModule = (() => {
             }, 1)
         }
 
-
     }
 
     function checkWinner(board) {
@@ -145,7 +142,7 @@ const controllerModule = (() => {
                             displayWinner("IA", board, combo);
                         }
                     }
-                    
+
                     if (isFull(board)) {
                         console.log(win_X);
                         console.log(win_O);
@@ -182,13 +179,12 @@ const controllerModule = (() => {
 
     }
 
-    function isFull(board) {
+    function isFull() {
 
-        //let boardFull = board.filter(element => element.textContent != "");
-        
         if (boardPlays.length >= 9) {
             return true;
         }
+
         return false;
     }
 
@@ -198,7 +194,7 @@ const controllerModule = (() => {
 
 })();
 
-// Players factory
+
 const players = (name) => {
     const getName = () => name;
 
