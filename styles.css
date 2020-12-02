@@ -118,3 +118,25 @@ label {
   background-color: rgb(48, 46, 46);
   pointer-events: none;
 }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+footer a {
+  float: right;
+}
+
+footer img {
+  margin: 10px;
+  width: 25px;
+}
+
+footer img:hover {
+  transform: scale(1.3);
+}
